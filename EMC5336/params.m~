@@ -1,0 +1,84 @@
+% Parâmetros do Sistema Dinâmico
+m = 100;   
+B = 100; 
+F = 10;
+
+% 1. Nome do seu arquivo do Simulink (sem o .slx)
+nome_do_modelo = 'modelo_sistema'; 
+
+
+sim(nome_do_modelo);
+
+tempo = tout;
+
+titulos = {'Aceleração Impulso', 'Velocidade 
+% 2. Roda a simulação pelo código
+sim(nome_do_modelo);
+
+% 3. Extrai o tempo (tout padrão do Simulink)
+tempo = tout;
+
+% 4. Configuração dos títulos e nomes dos arquivos
+titulos = {'Aceleração Impulso', 'Velocidade', 'Posição', 'Força Aplicada'};
+arquivos = {'Aceleracao_Impulso.png', 'Velocidade.png', 'Posicao.png', 'Forca_Aplicada.png'};
+
+% 5. Loop que gera e salva cada gráfico automaticamente com linha rosa
+for i = 1:length(titulos)
+    % Busca o dado dinamicamente da área de trabalho
+    if i == 1, dados = aceleracao;
+    elseif i == 2, dados = velocidade;
+    elseif i == 3, dados = posicao;
+    else, dados = forca;
+    end
+
+    % Cria a figura com fundo cinza escuro (estilo Scope)
+    fig = figure('Color', [0.15 0.15 0.15], 'Visible', 'on'); 
+    
+    % Plota a curva em ROSA ('m' de magenta)
+    plot(tempo, dados, 'm', 'LineWidth', 1.5); 
+    
+    % Configurações estéticas do gráfico
+    grid on;
+    set(gca, 'Color', 'black', 'GridColor', [0.3 0.3 0.3], 'GridAlpha', 0.5);
+    set(gca, 'XColor', 'white', 'YColor', 'white');
+    
+    % Define os textos dinamicamente
+    title(titulos{i}, 'Color', 'white', 'FontSize', 12);
+    xlabel('Tempo (s)', 'Color', 'white');
+    ylabel(titulos{i}, 'Color', 'white');
+    xlim([0 10]); % Limita o eixo X em 10 segundos
+    
+    % Salva a imagem em PNG com alta resolução
+    print(fig, arquivos{i}, '-dpng', '-r300');
+    
+    % Fecha a figura atual para não acumular janelas abertas
+    close(fig);
+end
+
+disp('Pronto! Os 4 arquivos PNG com linhas rosas foram gerados.');', 'Posição Degrau', 'Força Aplicada {Degrau}'};
+arquivos = {'Aceleracao_Degrau.png', 'Velocidade_Degrau.png', 'Posicao_Degrau.png', 'Forca_Aplicada_Degrau.png'};
+
+for i = 1:length(titulos)
+    if i == 1, dados = aceleracao;
+    elseif i == 2, dados = velocidade;
+    elseif i == 3, dados = posicao;
+    else, dados = forca;
+    end
+
+    fig = figure('Color', [0.15 0.15 0.15], 'Visible', 'on'); 
+    
+    plot(tempo, dados, 'm', 'LineWidth', 1.5); 
+    
+    grid on;
+    set(gca, 'Color', 'black', 'GridColor', [0.3 0.3 0.3], 'GridAlpha', 0.5);
+    set(gca, 'XColor', 'white', 'YColor', 'white');
+    
+    title(titulos{i}, 'Color', 'white', 'FontSize', 12);
+    xlabel('Tempo (s)', 'Color', 'white');
+    ylabel(titulos{i}, 'Color', 'white');
+    xlim([0 10]); % Limita o eixo X em 10 segundos
+    
+    print(fig, arquivos{i}, '-dpng', '-r300');
+    close(fig);
+end
+
